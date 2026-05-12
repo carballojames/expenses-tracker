@@ -23,14 +23,14 @@ export default function ExpenseList({ expenses, onViewMore }: ExpenseListProps) 
   }
 
   return (
-    <Card className="mt-4 shadow-sm rounded-2xl">
+    <Card className="mt-4 shadow-sm rounded-2xl bg-background ">
       <CardContent className="p-0">
-        <div className="divide-y divide-border hover:divide-border/70 rounded-2xl">
+      <div className="divide-y divide-border hover:divide-border/70 rounded-2xl   ">
           {sortedExpenses.map((expense) => (
             <button
               key={expense.id}
               type="button"
-              className="w-full text-left p-4 sm:p-5 transition-colors "
+              className="w-full text-left p-1 sm:p-5 transition-colors "
               onClick={() => onViewMore(expense.id)}
               aria-label={`View/edit expense: ${expense.description}`}
             >

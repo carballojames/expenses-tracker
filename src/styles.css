@@ -1,91 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
 :root {
   color-scheme: light;
-  /* Primary: Deep Purple (Light) */
-  --color-primary: #4b1a5c;
-  --color-primary-light: #6b2e7c;
-  --color-primary-dark: #2d0f3e;
-
-  /* Secondary: Medium Purple (Light) */
-  --color-secondary: #8b5ba8;
-  --color-secondary-light: #ab7bc8;
-  --color-secondary-dark: #6b3b88;
-
-  /* Tertiary: Wine Red (Light) */
-  --color-tertiary: #8b1a3c;
-  --color-tertiary-light: #ab3a5c;
-  --color-tertiary-dark: #6b0a2c;
-
-  /* Error: Red */
-  --color-error: #c41e3a;
-
-  /* Surfaces */
-  --color-surface-dim: #f5e6fa;
-  --color-surface: #ffffff;
-  --color-surface-bright: #f9f0fc;
-
-  /* Text */
-  --color-text-primary: #1a1a1a;
-  --color-text-secondary: #666666;
-  --color-text-tertiary: #999999;
-
-  /* Border */
-  --color-border: #e0c8ea;
-  --color-border-light: #f0e0f5;
-
+  
+  /* Modern SaaS Light Theme - Zinc & Violet */
   --background: 0 0% 100%;
-  --foreground: 0 0% 10%;
+  --foreground: 240 10% 3.9%;
+  
   --card: 0 0% 100%;
-  --card-foreground: 0 0% 10%;
+  --card-foreground: 240 10% 3.9%;
   --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 10%;
-  --primary: 281 34% 25%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 281 24% 40%;
-  --secondary-foreground: 0 0% 100%;
-  --muted: 0 0% 96%;
-  --muted-foreground: 0 0% 40%;
-  --accent: 0 0% 96%;
-  --accent-foreground: 281 34% 25%;
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 0 0% 100%;
-  --border: 281 20% 85%;
-  --input: 281 20% 90%;
-  --ring: 281 34% 25%;
-  --radius: 0.5rem;
+  --popover-foreground: 240 10% 3.9%;
+  
+  --primary: 262.1 83.3% 57.8%;     /* Vibrant Violet */
+  --primary-foreground: 210 40% 98%;
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+  
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+  
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 262.1 83.3% 57.8%;
+  
+  --radius: 0.75rem; /* 12px smooth rounding */
 }
 
 .dark {
   color-scheme: dark;
 
-  /* Use the same HSL variable format as :root.
-     Tailwind tokens are mapped via hsl(var(--...)) in @theme inline. */
-  --background: 281 34% 10%;
-  --foreground: 0 0% 95%;
-
-  --card: 281 34% 12%;
-  --card-foreground: 0 0% 95%;
-  --popover: 281 34% 12%;
-  --popover-foreground: 0 0% 95%;
-
-  --primary: 281 60% 55%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 281 25% 22%;
-  --secondary-foreground: 0 0% 95%;
-
-  --muted: 281 20% 18%;
-  --muted-foreground: 0 0% 65%;
-  --accent: 281 25% 20%;
-  --accent-foreground: 0 0% 95%;
-
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 0 0% 100%;
-
-  --border: 281 20% 22%;
-  --input: 281 20% 18%;
-  --ring: 281 60% 55%;
+  /* Modern SaaS Dark Theme */
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  
+  --card: 240 10% 7.8%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 7.8%;
+  --popover-foreground: 0 0% 98%;
+  
+  --primary: 262.1 83.3% 65%;       /* Brighter Violet for Dark Mode */
+  --primary-foreground: 210 40% 98%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 262.1 83.3% 57.8%;
 }
 
 @theme inline {
@@ -116,5 +94,5 @@
 
 
 * {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }

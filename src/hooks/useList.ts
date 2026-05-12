@@ -129,6 +129,16 @@ export function useLists() {
     })
   }, [])
 
+  const updateList = useCallback((listId: string, name: string, category: string) => {
+    void (async () => {
+      const list = await db.lists.get(listId)
+      if (!list) return
+      await db.lists.put({ ...list, name: name.trim() || list.name, category })
+    })().catch((e) => {
+      console.error("Failed to update list:", e)
+    })
+  }, [])
+
   return {
     lists: (lists ?? []).map((list) => ({
       ...list,
@@ -140,6 +150,7 @@ export function useLists() {
     toggleItemComplete,
     deleteItem,
     updateItemName,
+    updateList,
     uncheckAllItems,
   }
 }

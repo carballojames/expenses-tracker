@@ -9,7 +9,6 @@ import ExpenseList from "@/components/ExpenseList"
 import CalendarFilter from "@/components/CalendarFilter"
 import AddExpenseModal from "@/components/AddExpenseModal"
 import EditExpensesModal from "@/components/EditExpensesModal"
-import type { DateRange } from "react-day-picker"
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
@@ -19,35 +18,32 @@ function Dashboard() {
   const [isAddOpen, setIsAddOpen] = useState(false)
   const [isViewMoreOpen, setIsViewMoreOpen] = useState(false)
   const [viewMoreExpenseId, setViewMoreExpenseId] = useState<string | null>(null)
-  const [useRange, setUseRange] = useState(false)
-  const [dateRange, setDateRange] = useState<DateRange>({ from: undefined, to: undefined })
+  
+  const [selectedMonth, setSelectedMonth] = useState<Date>(new Date())
+  // null = no day filter (show whole month)
+  const [pickedDate, setPickedDate] = useState<Date | null>(null)
+
   const {
-    selectedDate,
-    setSelectedDate,
     addMultipleExpenses,
     deleteExpense,
     updateExpense,
     getExpensesForDay,
+    getExpensesForMonth,
     getDayTotal,
-    getExpensesForRange,
-    getRangeTotal,
+    getMonthTotal,
   } = useExpenses()
 
   const filteredExpenses = useMemo(() => {
-    if (useRange) {
-      return getExpensesForRange(dateRange.from, dateRange.to)
-    }
-    return selectedDate ? getExpensesForDay(selectedDate) : []
-  }, [dateRange.from, dateRange.to, getExpensesForDay, getExpensesForRange, selectedDate, useRange])
+    if (pickedDate !== null) return getExpensesForDay(pickedDate)
+    return getExpensesForMonth(selectedMonth)
+  }, [pickedDate, selectedMonth, getExpensesForDay, getExpensesForMonth])
 
   const filteredTotal = useMemo(() => {
-    if (useRange) {
-      return getRangeTotal(dateRange.from, dateRange.to)
-    }
-    return selectedDate ? getDayTotal(selectedDate) : 0
-  }, [dateRange.from, dateRange.to, getDayTotal, getRangeTotal, selectedDate, useRange])
+    if (pickedDate !== null) return getDayTotal(pickedDate)
+    return getMonthTotal(selectedMonth)
+  }, [pickedDate, selectedMonth, getDayTotal, getMonthTotal])
 
-  const summaryLabel = useRange ? "Range Total" : "Day Total"
+  const summaryLabel = pickedDate !== null ? "Day Total" : "Month Total"
 
   const viewMoreExpenses = useMemo(() => {
     if (!viewMoreExpenseId) return []
@@ -55,34 +51,36 @@ function Dashboard() {
     return found ? [found] : []
   }, [filteredExpenses, viewMoreExpenseId])
 
+  const monthCount = getExpensesForMonth(selectedMonth).length
+  const dayCount = pickedDate ? getExpensesForDay(pickedDate).length : 0
+
   return (
-    <div className="space-y-6 w-full max-w-5xl mx-auto mt-4">
+    <div className="space-y-6 w-full max-w-5xl mx-auto mt-4 bg-transparent">
       {/* Hero Section */}
-      {(useRange || selectedDate) && (
-        <ExpenseSummary date={selectedDate || new Date()} total={filteredTotal} count={filteredExpenses.length} label={summaryLabel} />
-      )}
+      <ExpenseSummary
+        date={pickedDate ?? selectedMonth}
+        total={filteredTotal}
+        count={filteredExpenses.length}
+        label={summaryLabel}
+      />
+
       {/* Calendar + actions (responsive) */}
       <div className="w-full">
         <CalendarFilter
-          selectedDate={selectedDate}
-          onDateChange={(date) => {
-            setSelectedDate(date)
-            setUseRange(false)
-            setDateRange({ from: undefined, to: undefined })
-          }}
-          useRange={useRange}
-          onUseRangeChange={setUseRange}
-          dateRange={dateRange}
-          onDateRangeChange={setDateRange}
-          selectedCount={selectedDate ? getExpensesForDay(selectedDate).length : 0}
-          rangeCount={dateRange.from && dateRange.to ? getExpensesForRange(dateRange.from, dateRange.to).length : 0}
+          selectedMonth={selectedMonth}
+          onMonthChange={setSelectedMonth}
+          selectedDate={pickedDate}
+          onDateChange={setPickedDate}
         />
 
-        <div className="mt-4 flex">
-          <Button onClick={() => setIsAddOpen(true)} size="sm" variant="secondary" className="flex items-center justify-center">
-            <Plus className="h-5 w-5 " />
+        <div className="mt-4 flex items-center">
+          <Button onClick={() => setIsAddOpen(true)} size="sm" variant="default" className="flex items-center justify-center">
+            <Plus className="h-5 w-5" />
             Expense
           </Button>
+          <span className="text-sm text-primary ml-auto">
+            {pickedDate !== null ? dayCount : monthCount} expense{(pickedDate !== null ? dayCount : monthCount) !== 1 ? "s" : ""}
+          </span>
         </div>
       </div>
 
@@ -111,7 +109,7 @@ function Dashboard() {
           isOpen={isAddOpen}
           onClose={() => setIsAddOpen(false)}
           onAdd={addMultipleExpenses}
-          defaultDate={selectedDate || new Date()}
+          defaultDate={pickedDate ?? new Date()}
         />
       )}
     </div>
